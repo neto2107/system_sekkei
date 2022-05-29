@@ -1,0 +1,12 @@
+{
+  "arduino.path": "/Applications/Arduino.app",
+  "arduino.commandPath": "Contents/MacOS/Arduino",
+  "arduino.enableUSBDetection": true,
+  "arduino.disableTestingOpen": false,
+  "arduino.additionalUrls": [
+    "https://dl.espressif.com/dl/package_esp32_index.json"
+  ],
+  "arduino.defaultBaudRate": 9600,
+  "C_Cpp.intelliSenseEngine": "Tag Parser"
+
+}

@@ -1,0 +1,5 @@
+{
+    "sketch": "FlashLed.pde",
+    "port": "/dev/tty.usbmodem1101",
+    "board": "arduino:avr:uno"
+}
