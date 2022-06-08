@@ -1,6 +1,6 @@
 {
     "board": "arduino:avr:uno",
-    "sketch": "4th/HK2-4-1/HK2-4-1.ino",
-    "port": "/dev/tty.usbmodem1101",
+    "sketch": "5th/HK2-5-2/HK2-5-2.ino",
+    "port": "/dev/tty.usbmodem11301",
     "programmer": "arduino:avrispmkii"
 }
