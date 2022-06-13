@@ -1,6 +1,6 @@
 {
-  "arduino.path": "/Applications/Arduino.app",
-  "arduino.commandPath": "Contents/MacOS/Arduino",
+  "arduino.path": "",
+  "arduino.commandPath": "",
   "arduino.enableUSBDetection": true,
   "arduino.disableTestingOpen": false,
   "arduino.additionalUrls": [
