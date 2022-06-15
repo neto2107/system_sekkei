@@ -13,13 +13,13 @@ void setup(){
  size(800,300);
  frameRate(60);
  drawPoint = new int[800];
- port = new Serial(this,"/dev/tty.usbmodem11401",9600); //Serialクラスのインスタンス生成
+ port = new Serial(this,"/dev/tty.usbserial-A90174GY",9600); //Serialクラスのインスタンス生成
  indexNow = 0;
 }
 
 void draw(){
   background(255); //背景を白
-  
+  drawMath();
   //属性を設定
   strokeWeight(2);
   stroke(255,0,0);
@@ -106,4 +106,20 @@ float changeVoltage(int value){
 //電圧を温度に変換する
 float changeTemp(float volt){
  return (volt * 1000.0 - 600.0)/10.0;//電圧→温度
+}
+  
+
+//罫線と対応する温度を描く
+void drawMath(){
+  fill(0);
+  for(int i = 0;i<=t_max - t_min; i++){
+    stroke(200,200,200);
+    int y =int(map(i,0,t_max - t_min,300,0));
+    line(0,y,800,y);
+    
+    
+    textSize(10);
+    text(t_min + i,10,y);
+  }
+  noFill();
 }

@@ -27,6 +27,7 @@ void serialEvent(Serial p){//pにはデータが到着したシリアルポー�
       val1 = recvInt(p)/2;
       p.clear(); //バッファをクリア
       println("<-"); //データ受信タイミング
+      port.write(0xff); //バイトデータを送信(1byte)
     }
     
   }
@@ -40,5 +41,11 @@ int recvInt(Serial p){
     val -=65536;//65536 = 2^16
     
   return val;//得られたInt型の値を返す
+}
+
+//マウスボタンが押されたら呼び出される割り込み関数
+void mousePressed(){
+  port.write(0xff);//送信要求を送信
+  println("->");//データ送信タイミング
 }
   
