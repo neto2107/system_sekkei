@@ -1,3 +1,7 @@
+/*
+* 学籍番号:6120011749
+* 氏名:奥井翔麻
+*/
 import processing.serial.*; //Serialライブラリを読み込む
 Serial port; //Serialクラスのオブジェクトを宣言
 //設定温度の初期値
@@ -19,6 +23,7 @@ void setup(){
  port = new Serial(this,"/dev/tty.usbserial-A90174GY",9600); //Serialクラスのインスタンス生成
 
  t = new Time(); //Timeクラスのインスタンスを生成
+
 }
 
 void draw(){
@@ -178,5 +183,30 @@ class Time{
   //経過時間を返す
   public int diffTime(){
     return this.nowTime - this.prevTime;
+  }
+}
+//ファイルの書き込みを担うクラス
+class FilePrinter{
+  private PrintWriter output;
+  //コンストラクタ
+  FilePrinter(String fileName,String index){
+    this.output = createWriter(fileName);//出力先ファイルの指定
+    output.println(index);
+  }
+  //値をファイルに書き込み(1変数)
+  public void printFile(int val){
+    output.println(val);
+  }
+  //値をファイルに書き込み(2変数)
+  public void printFile(int val,int val2){
+    output.print(val);
+    output.print(",");
+    output.println(val2);
+  }
+  
+  //終了関数
+  public void close(){
+    output.flush();
+    output.close();
   }
 }

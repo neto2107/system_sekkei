@@ -1,3 +1,7 @@
+/*
+* 学籍番号:6120011749
+* 氏名:奥井翔麻
+*/
 int val0, val1;
 unsigned long int timePrev, timeNow;
 byte inByte; //Processingからの送信要求を受け取る変数

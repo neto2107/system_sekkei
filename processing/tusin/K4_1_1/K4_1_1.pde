@@ -1,3 +1,7 @@
+/*
+* 学籍番号:6120011749
+* 氏名:奥井翔麻
+*/
 import processing.serial.*; //Serialライブラリを読み込む
 Serial port; //Serialクラスのオブジェクトを宣言
 //設定温度の初期値
