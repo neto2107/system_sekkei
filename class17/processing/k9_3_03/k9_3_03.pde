@@ -55,8 +55,8 @@ void draw() {
     }
 
   // ＊＊＊　ヒント：ここに2番目のZumo用の処理を書く　＊＊＊//
-    pushMatrix();
-    translate(width/2,0);
+    pushMatrix(); //座標軸の情報をpush
+    translate(width/2,0); //座標軸を変更する
     fill(0, 0, 0); 
     rect(0, 0, width/2, height/2);                     // 対象画面の初期化（黒く塗りつぶす）
 
@@ -74,7 +74,7 @@ void draw() {
     if (myString2 != null) {
       text(myString2, 10, 10);                                      // シリアル通信で受信したテキストの表示
     }
-    popMatrix();
+    popMatrix(); //保存していた座標軸の情報をpop
 
 }
 

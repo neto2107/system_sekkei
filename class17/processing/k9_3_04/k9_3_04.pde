@@ -30,18 +30,17 @@ void setup() {
 }
 
 void draw() { 
-
+  //白で現在の状態を表示
   fill(255, 255, 255); 
   textSize(30);
-  text(Integer.toString(moving_robot), 50, 50);                                      // シリアル通信で受信したテキストの表示
+  text(Integer.toString(moving_robot), 50, 50);                                      // 現在動いているロボット番号を表示
 }
 
 boolean sof_f = false;//SOFを発見したかどうかのフラグ
-boolean sof_s = false;
 int inByte;
 // シリアルポートにデータが到着するたびに呼び出される割り込み関数
 void serialEvent(Serial p) {
-  int l = p.available();
+  int l = p.available(); //pにどれだけのデータがあるかを格納
   while (l>0) {//受信バッファないにデータがある時
 
     if (sof_f == false) { // SoF を発見していない場合
@@ -50,40 +49,58 @@ void serialEvent(Serial p) {
       }
       l--;//受信バッファ数を修正
     }
-
+    //SOFを発見した場合
     if (sof_f == true) {
-
+      //port1なら
       if (p == port1 && l >= 1) {
+        //受信データを読み込む
         inByte = p.read();
         println("<--");
+        //受信データがロボットの準備完了を表すものなら、
         if (inByte == 'S') {
+          //ロボット１に動くように指示する
           port1.write(0x32);
           println("-->");
+          //現在ロボットが動いていることをセット
           moving_robot=1;
         }
+        //受信データがロボットの動作完了を表すものなら、
         if (inByte == 'E') {
+          //次のロボットに動くように指示する
           port2.write(0x32);
+          //動いているロボットの情報を更新
           moving_robot=2;
                     println("-->");
         }
-        sof_f = false;
+        sof_f = false; //sofをfalseに戻す
       }
+      //受信したポートが2なら
       if (p == port2 && l >= 1) {
+        //データを読み込む
         inByte = p.read();
         println("<--");
+        //受信したデータが動作完了を表すものなら、
         if (inByte == 'E') {
+          //次のロボットにうごくように指示する
           port3.write(0x32);
+          //動いているロボットの状態を変更する
           moving_robot=3;
                     println("-->");
         }
+        //sofをfalseにセット
         sof_f = false;
       }
+      //受信したportが3なら
       if (p == port3 && l >= 1) {
+        //データを読み込む
         inByte = p.read();
         println("<--");
+        //受信したデータが、ロボットの動作完了を表すものなら、
         if (inByte == 'E') {
+          //動作ロボットをリセット
           moving_robot=0;
         }
+        //sofをfalseに戻す。
         sof_f = false;
       }
     }
