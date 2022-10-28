@@ -88,34 +88,34 @@ void loop()
     case 1:  
       speed0 = 0.0;
       diff = turnTo(0);    // 北 = 0, 東 = 90, 南 = 180, 西 = 270
-      if (abs(0-heading_G)<=5) { // 東を向いたら mode 2へ
+      if (abs(0-heading_G)<=5) { // 北を向いたら mode 2へ
         mode_G = 2;
       }
       break;
 
     case 2:
-      if (waitfor(10000)) {  // 東を向いてから2秒たったら終了 (mode 99)
+      if (waitfor(10000)) {  // 10秒間直進する
         sum_e = 0.0;
-        mode_G = 3;        // つづきのプログラムを書いて下さい
+        mode_G = 3;        // 直進後にmode3へ
       }
-      speed0 = 100;
-      diff = turnTo(0);
+      speed0 = 100; //モーターのスピードを100にする
+      diff = turnTo(0);//北との偏差を取得
       break;
 
     case 3:  
       speed0 = 0.0;
-      diff = turnTo(180);    // 北 = 0, 東 = 90, 南 = 180, 西 = 270
-      if (abs(180-heading_G)<=5) { // 東を向いたら mode 2へ
+      diff = turnTo(180);    // 南を向く
+      if (abs(180-heading_G)<=5) { // 南を向いたら mode 4へ
         mode_G = 4;
       }
       break;
 
     case 4:
-      if (waitfor(10000)) {  // 東を向いてから2秒たったら終了 (mode 99)
+      if (waitfor(10000)) {  // 南を向いたら10秒間前進する
         sum_e = 0.0;
-        mode_G = 0;        // つづきのプログラムを書いて下さい
+        mode_G = 0;     //10秒経過後は最初に戻る(北を向く)   
       }
-      speed0 = 100;
+      speed0 = 100;//スピードを100にする
       diff = turnTo(180);
       break;
 
@@ -130,13 +130,10 @@ void loop()
       diff = 0;
       break;
   }
-  if(mode_G % 2 == 1){
-    motorL_G = speed0+diff;
-    motorR_G = speed0-diff;
-  }else{
-    motorL_G = speed0+diff;
-    motorR_G = speed0-diff;
-  }
+  //モーターの回転速度を決める
+  motorL_G = speed0+diff; 
+  motorR_G = speed0-diff;
+
 
 
   motors.setSpeeds(motorL_G, motorR_G);

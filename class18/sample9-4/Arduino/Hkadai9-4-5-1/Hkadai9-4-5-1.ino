@@ -5,7 +5,6 @@
 #include <LSM303.h>
 #include <ZumoBuzzer.h>
 
-//#define a 0.8 //RCフィルターのセンサー値
 
 ZumoMotors motors;
 Pushbutton button(ZUMO_BUTTON);
@@ -56,21 +55,22 @@ float turnTo(float theta_r) {
 }
 
 float bf_angle; //前回の角度
-float rc;
 float calDiffAngle(){
-    heading_G = atan2(my,mx) * 180 / M_PI;
+    heading_G = atan2(my,mx) * 180 / M_PI;//現在のロボットの向きを取得
 
-    if (heading_G<0) {
+    if (heading_G<0) {//値が負の時は正の値にする。
       heading_G += 360;
     }
-    if(waitfor(100) == 1){
-      float df = heading_G - bf_angle;
+    if(waitfor(100) == 1){//100msに１回、回転回転しているかを判別する
+      float df = heading_G - bf_angle; //前回の向きと、今回の向きの差を計算
 
-      Serial.println(df);
-      if(df <1 &&df > -100){
-        buzzer.play(">c32");
+      Serial.println(df);//シリアル通信
+      if(df <1 &&df > -100){//向きの差が1より小さく-100より大きければ回転していないと判別する。(-100以上を入れているのは、360→0に代わるときに誤検出するのを防ぐため。)
+        buzzer.play(">c32");//ブザーを鳴らす
+        bf_angle = heading_G;//角度を更新
+        return 1;
       }
-      bf_angle = heading_G;
+      bf_angle = heading_G;//角度を更新
     }
     return 0;
 
@@ -97,7 +97,7 @@ void loop()
   my = map(compass.m.y,compass.m_min.y,compass.m_max.y,-128,127);
   mz = map(compass.m.z,compass.m_min.z,compass.m_max.z,-128,127); 
   //sendData(); // データ送信
-  float test = calDiffAngle();
+  float test = calDiffAngle(); //ここで、回転しているかどうかを判別する
   sendPrintData(test);
 
   if ( button.isPressed() ) { // Zumo button が押されていればtrue, そうでなければ false
@@ -106,7 +106,7 @@ void loop()
     timeInit_G = millis();
     timePrev_G = 0;
   }
-  switch (mode_G) {
+  switch (mode_G) {//常に回転するように変更
     case 0:
       mode_G = 0;
       sum_e = 0.0;
@@ -121,7 +121,7 @@ void loop()
       diff = 0;
       break;
   }
-
+  //常に回転するように変更
     motorL_G = speed0;
     motorR_G = -speed0;
 
@@ -174,7 +174,7 @@ void sendData()
     write1byteint((int)mz);
     Serial.write(mode_G);
 }
-
+//デバッグ用
 void sendPrintData(float a){
   //Serial.print(heading_G);
   //Serial.print(",");
