@@ -70,7 +70,7 @@ void task_A()
     case 3:
     //青になるまで判定
       linetrace_P();
-      if(identify_color(170,230,160)){//青かどうか
+      if(identify_color(170,230,200)){//青かどうか
         mode_G = 1;
       }
       break;

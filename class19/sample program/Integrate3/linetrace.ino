@@ -16,21 +16,26 @@ void linetrace_bang_bang()
   motorR_G = speed + speedDiff;
 }
 
-
+//P制御によるライントレース
 void linetrace_P()
 {
   static float lightMin = 0 ; // 各自で設定
   static float lightMax = 255; // 各自で設定 （わざとエラーが出るようにしてある）
   static float speed = 100; // パラメーター
   static float Kp = 0; // パラメーター
-  float lightNow;
-  float speedDiff;
+  float lightNow;//現在のカラーセンサーのグレースケール値
+  float speedDiff; //補正用の速度の偏差
 
+  //カラーセンサーの値をグレースケールに変換
   lightNow = (red_G + green_G + blue_G ) / 3.0;
+  //現在のグレースケール-明るさの平均値を計算することでKp(どれだけ回転させるかを決めるパラメータ)を算出
+  //平均より小さい→暗い（ライン上にある)→負の値
+  //平均より大きい→明るい(ライン上にない。)→正の値
   Kp = lightNow - (lightMin + lightMax) / 2.0-20;
 
-  //speedDiff = map(Kp,-128,127,-2,2) *speed;
   speedDiff = Kp/70 *(float)speed;//反時計回り
+  //  speedDiff = Kp/70 *(float)speed;//時計回り
+  //モーターの実際の回転速度を算出
   motorL_G = speed - speedDiff;
   motorR_G = speed + speedDiff;
 }

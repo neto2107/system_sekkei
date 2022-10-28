@@ -23,18 +23,22 @@ void linetrace_P()
   static float lightMax = 255; // 各自で設定 （わざとエラーが出るようにしてある）
   static float speed = 100; // パラメーター
   static float Kp = 0; // パラメーター
-  float lightNow;
-  float speedDiff;
+  float lightNow;//現在のカラーセンサーのグレースケール値
+  float speedDiff;//補正用の速度の偏差
 
+  //カラーセンサーの値をグレースケールに変換
   lightNow = (red_G + green_G + blue_G ) / 3.0;
+  //現在のグレースケール-明るさの平均値を計算することでKp(どれだけ回転させるかを決めるパラメータ)を算出
+  //平均より小さい→暗い（ライン上にある)→負の値
+  //平均より大きい→明るい(ライン上にない。)→正の値
   Kp = lightNow - ((lightMin + lightMax) / 2.0)-20;
-
-  //speedDiff = map(Kp,-128,127,-2,2) *speed;
+  //回転方向によって(motor_mode_Gによって)分岐させる
   if(motor_mode_G ==0){
     speedDiff = Kp/70 *(float)speed;//反時計回り
   }else{
-    speedDiff = -Kp/70 *(float)speed;//時計回り
+    speedDiff = -Kp/70 *(float)speed;//時計回り(speedDiffの正負を判定させる。)
   }
+  //モーターの回転速度をセット
   motorL_G = speed - speedDiff;
   motorR_G = speed + speedDiff;
 }
@@ -60,10 +64,9 @@ void task_A()
     // 各自で作成
     case 2:
       //1秒間停止する
-      motors.setSpeeds(0,0);
+      motors.setSpeeds(0,0);//モーターの回転を0にセット
       if(maintainState(1000)){//1秒たったらmode3へ
               mode_G = 3;
-              startTime = 0;
       }
       break;
     

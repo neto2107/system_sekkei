@@ -46,43 +46,43 @@ void task_A()
       mode_G = 1;
       break;  // break文を忘れない（忘れるとその下も実行される）
 
-    case 1:
+    case 1://赤を検出するまでライントレース
       linetrace_P(); // ライントレース（各自で作成）
       if ( identify_color( 220, 230, 130 ) ) { // 赤かどうか　（引数の値は各自で設定）
-        mode_G = 2;
+        mode_G = 2;//赤色を検知したら状態2へ遷移する。
       }
       break;
 
     // 各自で作成
-    case 2: //赤奇数回目
+    case 2: //赤を検出した奇数回目
       //1秒間停止する
-      motors.setSpeeds(0,0);
-      if(startTime == 0){
-      startTime = millis();
+      motors.setSpeeds(0,0);//停止させる
+      if(startTime == 0){//startTimeが0すなわち、何も値がセットされていないなら、
+      startTime = millis();//startTimeを設定する(この処理はcase2に入った初回だけ呼ばれる。)
       }
-      if(millis() - startTime > 1000){//1秒たったらmode3へ
-              mode_G = 3;
-              startTime = 0;
+      if(millis() - startTime > 1000){////case2に入ってから1秒たったら
+              mode_G = 3;//モード3に遷移させる
+              startTime = 0;//次も使うため、startTimeをリセットする
       }
 
       break;
     
-    case 3:
+    case 3://青を検出するまでライントレース(同じ位置にある赤を検出しないように)
     //青になるまで判定
-      linetrace_P();
+      linetrace_P();//ライントレース
       if(identify_color(170,230,200)){//青かどうか
-        mode_G = 4;
+        mode_G = 4;//青を検出したら状態４に遷移させる
       }
       break;
     
-    case 4:
+    case 4://赤を検出するまでライントレース
       linetrace_P(); // ライントレース（各自で作成）
       if ( identify_color( 220, 230, 130 ) ) { // 赤かどうか　（引数の値は各自で設定）
         mode_G = 5;
       }
       break;
     case 5: //赤を検出したとき(偶数回目)
-        //青になるまで判定
+        //青になるまでライントレース
       linetrace_P();
       if(identify_color(170,230,200)){//青かどうか
         mode_G = 1;//初期状態に戻る
