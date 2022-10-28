@@ -1,6 +1,6 @@
 {
     "board": "arduino:avr:uno",
-    "sketch": "class18/sample9-4/Arduino/Hkadai9-4-5-1/Hkadai9-4-5-1.ino",
-    "port": "/dev/tty.usbmodem1301",
+    "sketch": "class19\\sample program\\Integrate3\\Integrate3.ino",
+    "port": "COM3",
     "programmer": "arduino:avrispmkii"
 }
