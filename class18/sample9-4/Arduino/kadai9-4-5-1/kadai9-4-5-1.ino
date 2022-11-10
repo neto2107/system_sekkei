@@ -88,7 +88,7 @@ void loop()
       }
       break;
     case 2:
-      if (waitfor(2000)) {  // 東を向いてから2秒たったら終了 (mode 99)
+      if (waitfor(2000)) {  // 北を向いてから2秒たったら西を向くモードへ (mode 3)
         sum_e = 0.0;
         mode_G = 3;        // つづきのプログラムを書いて下さい
       }
@@ -97,14 +97,14 @@ void loop()
       break;
 
     case 3:
-      diff = turnTo(90); //にしを向く
+      diff = turnTo(90); //東を向く
       if(abs(90 - heading_G)<=5){
         mode_G =4; //にしを向いたらmode4へ
       }
       break;
 
     case 4:
-      if(waitfor(2000)){ //にしを向いてから2秒経ったら南を向くモードに(mode5)
+      if(waitfor(2000)){ //東を向いてから2秒経ったら南を向くモードに(mode5)
         sum_e = 0.0;
         mode_G = 5;
       }
@@ -119,7 +119,7 @@ void loop()
       break;
 
     case 6:
-      if(waitfor(2000)){ //にしを向いてから2秒経ったら南を向くモードに(mode5)
+      if(waitfor(2000)){ //南を向いてから2秒経ったら西を向くモードに(mode7)
         sum_e = 0.0;
         mode_G = 7;
       }
@@ -129,12 +129,12 @@ void loop()
     case 7:
       diff = turnTo(270);
       if(abs(270 - heading_G)<=5){
-        mode_G =8; //にしを向いたらmode4へ
+        mode_G =8; //西を向いたらmode4へ
       }
       break;
 
     case 8:
-      if(waitfor(2000)){ //にしを向いてから2秒経ったら南を向くモードに(mode5)
+      if(waitfor(2000)){ //にしを向いてから2秒経ったら初期状態に戻る(mode0)
         sum_e = 0.0;
         mode_G = 0;//初期状態に戻る
       }      speed0 = 0;
